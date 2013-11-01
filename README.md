@@ -4,7 +4,7 @@ This code provides functions that may prove useful in implementing the Lab 5 gam
 
 ## Basic Idea
 
-The player is represented by an unsigned char containing a position on the board.
+The player is represented by an unsigned char containing a position on the board.  Relies on an LCD library - included as `LCD/LCD.h`.
 
 ## Code
 
