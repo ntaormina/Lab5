@@ -6,6 +6,8 @@ This code provides functions that may prove useful in implementing the Lab 5 gam
 
 The player is represented by an unsigned char containing a position on the board.  Relies on an LCD library - included as `LCD/LCD.h`.
 
+`example.c` gives you a program skeleton and pseudocode that may be helpful in achieving required functionality.
+
 ## Code
 
 - `unsigned char initPlayer();`
