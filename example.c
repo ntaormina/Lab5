@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "game.h"
 #include "button/buttons.h"
+#include "LCD/LCD.h"
 
 void init_timer();
 void init_buttons();
