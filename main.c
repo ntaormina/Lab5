@@ -1,15 +1,25 @@
 #include <msp430.h>
-#include "game.h"
-#include "button.h"
-#include "LCD.h"
+#include "game_shell/game.h"
+#include "buttons/button.h"
+#include "LCD-1/LCD.h"
 
 void init_timer();
 void init_buttons();
 
-int main(void) {
+int TIMER = 0;
+int WIN = 0;
+
+
+void main(void) {
 	WDTCTL = (WDTPW | WDTHOLD);
 
-	unsigned char player = initPlayer();
+	initSPI();
+
+	LCDinit();
+
+	LCDclear();
+
+	//unsigned char player = initPlayer();
 
 	init_timer();
 	init_buttons();
@@ -17,77 +27,84 @@ int main(void) {
 
 	while (1) {
 
-		while (didPlayerWin == 0) {
+		LCDclear();
+		unsigned char player = initPlayer();
+		TIMER = 0;
+		WIN = 0;
+		printPlayer(player);
 
-			printPlayer(player);
+		while ((didPlayerWin(player) != 1) && (WIN == 0)) {
 
-			configureP1PinAsButton(BIT1 | BIT2 | BIT3 | BIT4); // configure pins 1, 2, and 3 as buttons
-
-			P1DIR |= BIT0 | BIT6;                // set launchpad LEDs to output
-
-			char buttons[] = { BIT1, BIT2, BIT3, BIT4 };
-			char pressedButton = pollP1Buttons(buttons, 4);
-			char direction = 0;
-
-			switch (pressedButton) {
-			case BIT1:
-				direction = 1;
-				break;
-			case BIT2:
-				direction = 2;
-				break;
-			case BIT3:
-				direction = 3;
-				break;
-			case BIT4:
-				direction = 4;
-				break;
-				P1OUT ^= BIT0 | BIT6;
-				waitForP1ButtonRelease(BIT3);
-				break;
-
-			}
-
-//		  		check if button is pushed (you don't want to block here, so don't poll!)
-//		  		if button is pushed:
-			if (direction != 0) {
+			char buttons[4] = { BIT1, BIT2, BIT3, BIT4 };
+			char pressedButton = checkP1Buttons(buttons, 4);
+//
+			if (pressedButton != FALSE) {
 				clearPlayer(player);
-				movePlayer(player, direction);
+				player = movePlayer(player, pressedButton);
 				printPlayer(player);
-				clear two second timer
-				//		  			wait for button release (you can poll here)
-
+				TIMER = 0;
+				TACTL |= TACLR;
+				waitForP1ButtonRelease(pressedButton);
+				debounce();
+				pressedButton = 0;
 			}
-//		  			clear current player marker
-//		  			update player position based on direction
-//		  			print new player
 //
 		}
 
-		if(didPlayerWin == 1){
+		if (didPlayerWin(player) == 1) {
+			LCDclear();
+			writeString("You");
+			cursorToLineTwo();
+			writeString("Win");
+		} else {
+			LCDclear();
+			writeString("Game");
+			cursorToLineTwo();
+			writeString("Over");
+		}
 
-		}else{
+		char buttonsToPoll[4] = { BIT1, BIT2, BIT3, BIT4 };
+		while (!pollP1Buttons(buttonsToPoll, 4)) {
 
 		}
-//		  print game over or you won, depending on game result
-//
-//		  wait for button press to begin new game (you can poll here)
-//		  wait for release before starting again
+//		char pressedButtonSecond = checkP1Buttons(buttonsToPoll, 4);
+//		waitForP1ButtonRelease(pressedButtonSecond);
+//		debounce();
 
 	}
 
-	return 0;
 }
 
-//
-// YOUR TIMER A ISR GOES HERE
-//
+#pragma vector=TIMER0_A1_VECTOR
+__interrupt void TIMER0_A1_ISR() {
+	TACTL &= ~TAIFG;            // clear interrupt flag
+	TIMER += 1;
+	if (TIMER == 4) {
+		WIN = 1;
+	}
+}
 
 void init_timer() {
 	// do timer initialization work
-	TACTC = ACLK|1|00|1|1;
+	//TACTL = 01 | 1 | 11 | 1 | 1;
+
+	TACTL &= ~(MC1|MC0);        // stop timer
+
+	TACTL |= TACLR;             // clear TAR
+
+	TACTL |= TASSEL1;           // configure for SMCLK - what's the frequency (roughly)?
+
+	TACTL |= ID1|ID0;           // divide clock by 8 - what's the frequency of interrupt?
+
+	TACTL &= ~TAIFG;            // clear interrupt flag
+
+	TACTL |= MC1;               // set count mode to continuous
+
+	TACTL |= TAIE;              // enable interrupt
+
 }
 
 void init_buttons() {
+	configureP1PinAsButton(BIT1 | BIT2 | BIT3 | BIT4);
 	// do button initialization work
 }
