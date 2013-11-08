@@ -39,4 +39,6 @@ char checkP1Buttons(char buttonsToCheck[], char numberOfButtonsToCheck);
 //
 void debounce();
 
+void testAndRespondToButtonPush(char buttonToTest);
+
 #endif
