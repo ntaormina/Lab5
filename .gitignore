@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 *.elf
 *.swp
 main
 Makefile
+=======
+*.swp
+>>>>>>> 77507ce071cfc2a195d826485f3c1d1ef900d512
