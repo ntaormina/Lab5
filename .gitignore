@@ -1,1 +1,12 @@
+<<<<<<< HEAD
 *.swp
+=======
+<<<<<<< HEAD
+*.elf
+*.swp
+main
+Makefile
+=======
+*.swp
+>>>>>>> 77507ce071cfc2a195d826485f3c1d1ef900d512
+>>>>>>> bbba415b639a52d81b0f7af4a14935801070d31a
