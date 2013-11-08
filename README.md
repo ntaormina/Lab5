@@ -1,7 +1,9 @@
-<<<<<<< HEAD
+
 # Lab 5 Game Shell
 
-This code provides functions that may prove useful in implementing the Lab 5 game
+
+
+##DOCUMENATION: I used Captain Branchflowers buttons, game_shell, and LCD-1. I merged his READMEs with mine.
 
 ## Basic Idea
 
@@ -128,6 +130,21 @@ int main()
 Lab5
 ====
 main.c is my code for a simple game using interrupts to handle button pushes
+
+-int TIMER; 
+	-This is a global helper variable for the ACLK to determine if two seconds has passed
+
+-int WIN;
+	-This determines whether a player has run out of time. Getting set to 1 when the computer wins (the player
+	runs out of time)
+	
+- `void testAndRespondToButtonPush(char buttonToTest);`	
+	-this is called from the button interrupt (Port_1_ISR)
+	-It mores a player based on the button pushed
+
+- `void clearTimer();`
+	-this clears my timer global variable and resets the TACL flag
+
 
 >>>>>>> 24ca612a06f34ab958b36e0b2c89757c0219d3ad
 >>>>>>> 77507ce071cfc2a195d826485f3c1d1ef900d512
