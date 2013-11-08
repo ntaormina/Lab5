@@ -6,10 +6,10 @@
  */
 
 
-#define UP 1
-#define DOWN 2
-#define LEFT 3
-#define RIGHT 4
+#define UP BIT3
+#define DOWN BIT4
+#define LEFT BIT2
+#define RIGHT BIT1
 
 #define ROW_MASK 0x40
 
