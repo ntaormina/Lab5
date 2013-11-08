@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MSP430g2553 LCD Driver
 
 ## Methods
@@ -35,3 +36,9 @@ int main()
 	// your code
 }
 ```
+=======
+Lab5
+====
+main.c is my code for a simple game using interrupts to handle button pushes
+
+>>>>>>> 24ca612a06f34ab958b36e0b2c89757c0219d3ad
