@@ -41,24 +41,6 @@ void main(void) {
 	while (1) {
 
 
-		//while ((didPlayerWin(player) != 1) && (WIN == 0)) {
-
-		//char buttons[4] = { BIT1, BIT2, BIT3, BIT4 };
-		//char pressedButton = checkP1Buttons(buttons, 4);
-
-//
-//			if (pressedButton != FALSE) {
-//				clearPlayer(player);
-//				player = movePlayer(player, pressedButton);
-//				printPlayer(player);
-//				TIMER = 0;
-//				TACTL |= TACLR;
-//				waitForP1ButtonRelease(pressedButton);
-//				debounce();
-//				pressedButton = 0;
-//			}
-////
-		//	}
 
 		if (didPlayerWin(player) == 1) {
 
@@ -95,10 +77,6 @@ void main(void) {
 		}
 
 
-//		char buttonsToPoll[4] = { BIT1, BIT2, BIT3, BIT4 };
-//		while (!pollP1Buttons(buttonsToPoll, 4)) {
-//
-//		}
 
 	}
 
@@ -141,7 +119,7 @@ __interrupt void TIMER0_A1_ISR() {
 
 void init_timer() {
 	// do timer initialization work
-	//TACTL = 01 | 1 | 11 | 1 | 1;
+
 
 	TACTL &= ~(MC1 | MC0);        // stop timer
 
